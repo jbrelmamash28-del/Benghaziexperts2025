@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>نافذة رفع بيانات لغرض الشكوى</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  html { font-size: 125%; } /* تكبير كل شيء بنسبة 125% */
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Cairo", sans-serif;
+    background: linear-gradient(180deg, #17191c 0%, #0e0f10 100%);
+    color: #e6e6e6;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  header {
+    text-align: center;
+    padding: 31px 12.5px; /* 25px * 1.25 */
+    background: #1a1d21;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    position: relative;
+  }
+  header .logo-wrapper {
+    display: inline-block;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid #2d9f59;
+    box-shadow: 0 0 31px rgba(45,159,89,0.4);
+    animation: pulse 5s infinite ease-in-out;
+  }
+  header img { width: 100%; height: 100%; object-fit: cover; }
+  header h2 {
+    color: #8fe388;
+    font-size: 27.5px;
+    margin-top: 18.75px;
+    animation: softPulse 3s infinite ease-in-out;
+  }
+  header h1 {
+    color: #ffffff;
+    font-size: 30px;
+    margin-top: 6.25px;
+  }
+  .form-container {
+    position: relative;
+    max-width: 1062px;
+    background: rgba(28,31,35,0.95);
+    margin: 50px auto;
+    padding: 50px 62px;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.5);
+    overflow: hidden;
+  }
+  .form-container::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 625px;
+    height: 625px;
+    background: url('14CB1AC8-5C20-4ABE-8C85-3DF426A41645.png') no-repeat center;
+    background-size: contain;
+    opacity: 0.03;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  label { display: block; margin: 18.75px 0 7.5px; color: #8fe388; font-weight: 600; }
+  input, select {
+    width: 100%;
+    padding: 12.5px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background: #262a2f;
+    color: #fff;
+    font-size: 18.75px;
+  }
+  input:focus, select:focus { outline: none; border-color: #2d9f59; }
+  .two-columns { display: flex; gap: 18.75px; flex-wrap: wrap; }
+  .two-columns > div { flex: 1; }
+  .difference-box {
+    background: #212428;
+    border: 1px solid #2d9f59;
+    border-radius: 8px;
+    margin-top: 12.5px;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    color: #8fe388;
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.4s ease;
+  }
+  .difference-box.show { opacity: 1; transform: translateY(0); }
+  .note { font-size: 16.25px; color: #aaa; margin-top: 6.25px; text-align: center; display: none; }
+  button {
+    background: #2d9f59;
+    border: none;
+    padding: 15px 37.5px;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 20px;
+    cursor: pointer;
+    margin-top: 31px;
+    transition: all 0.3s ease;
+  }
+  button:hover { background: #36b866; transform: scale(1.03); }
+  footer { text-align: center; font-size: 16.25px; color: #888; margin-top: 37px; padding: 12.5px; border-top: 1px solid #333; }
+  .success-message {
+    display: none;
+    text-align: center;
+    color: #8fe388;
+    font-size: 22.5px;
+    margin-top: 25px;
+    background: rgba(33, 36, 40, 0.9);
+    padding: 18.75px;
+    border-radius: 10px;
+    border: 1px solid #2d9f59;
+    position: relative;
+  }
+  .success-message button {
+    position: absolute;
+    top: 6px;
+    left: 12.5px;
+    background: transparent;
+    color: #8fe388;
+    border: none;
+    font-size: 22.5px;
+    cursor: pointer;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(45,159,89,0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 0 44px rgba(45,159,89,0.7); }
+  }
+  @keyframes softPulse {
+    0%, 100% { opacity: 1; text-shadow: 0 0 13px rgba(143,227,136,0.4); }
+    50% { opacity: 0.85; text-shadow: 0 0 25px rgba(143,227,136,0.7); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-wrapper">
+    <img src="14CB1AC8-5C20-4ABE-8C85-3DF426A41645.png" alt="شعار المركز">
+  </div>
+  <h2>تجمع خبراء وموظفي مركز الخبرة القضائية والبحوث</h2>
+  <h1>نافذة رفع بيانات لغرض الشكوى</h1>
+</header>
+
+<section class="form-container">
+  <form id="complaintForm" action="https://formspree.io/f/xpwoqwep" method="POST" onsubmit="return validateForm(event)">
+    <div class="two-columns">
+      <div>
+        <label for="name">الاسم الكامل</label>
+        <input type="text" id="name" name="الاسم الكامل" required placeholder="اكتب اسمك الكامل">
+      </div>
+      <div>
+        <label for="salary-status">حالة المرتب</label>
+        <select id="salary-status" name="حالة المرتب" required>
+          <option value="">اختر الحالة</option>
+          <option>مستمر</option>
+          <option>موقوف</option>
+        </select>
+      </div>
+    </div>
+    <div class="two-columns">
+      <div>
+        <label for="branch">الفرع</label>
+        <select id="branch" name="الفرع" required onchange="toggleOtherBranch()">
+          <option value="">اختر الفرع</option>
+          <option>بنغازي</option>
+          <option>طرابلس</option>
+          <option>البيضاء</option>
+          <option>مصراتة</option>
+          <option>سبها</option>
+          <option>بن وليد</option>
+          <option>أخرى</option>
+        </select>
+        <input type="text" id="other-branch" name="فرع آخر" style="display:none;margin-top:12.5px;" placeholder="اكتب اسم الفرع">
+      </div>
+      <div>
+        <label for="role">الصفة</label>
+        <select id="role" name="الصفة" required onchange="toggleExpertField()">
+          <option value="">اختر الصفة</option>
+          <option>موظف</option>
+          <option>خبير قضائي</option>
+          <option>مستشار</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="expert-field" style="display:none;">
+      <label for="specialty">الاختصاص</label>
+      <input type="text" id="specialty" name="الاختصاص" placeholder="اكتب اختصاصك القضائي">
+    </div>
+
+    <div class="two-columns">
+      <div>
+        <label for="last-edit">تاريخ آخر تعديل وفقا لإدارة الميزانية</label>
+        <input type="date" id="last-edit" name="تاريخ آخر تعديل" required>
+      </div>
+      <div>
+        <label for="edit-type">نوع التعديل</label>
+        <input type="text" id="edit-type" name="نوع التعديل" required placeholder="اكتب نوع التعديل">
+      </div>
+    </div>
+
+    <div class="two-columns">
+      <div>
+        <label for="salary-before">قيمة الراتب قبل الصرف اللحظي</label>
+        <input type="number" id="salary-before" name="الراتب قبل الصرف" required placeholder="أدخل القيمة بالدينار" oninput="calculateDifference()">
+      </div>
+      <div>
+        <label for="salary-after">قيمة الراتب اللحظي</label>
+        <input type="number" id="salary-after" name="الراتب بعد الصرف" required placeholder="أدخل القيمة الحالية بالدينار" oninput="calculateDifference()">
+      </div>
+    </div>
+
+    <div id="difference" class="difference-box">الفرق بعد خصم 1٪ تكافل اجتماعي: —</div>
+    <div id="note" class="note">⚠️ استقطاع 1٪ خاص بالتكافل الاجتماعي</div>
+
+    <label for="phone">رقم الهاتف (يجب أن يكون مرتبط بحساب واتساب)</label>
+    <input type="tel" id="phone" name="رقم الهاتف" required placeholder="أدخل رقم هاتفك">
+
+    <button type="submit">إرسال البيانات</button>
+    <div id="successMessage" class="success-message">
+      ✅ تم الإرسال بنجاح<br>
+      سيتم التواصل عبر واتساب في غضون 24 ساعة لاستكمال الإجراءات.
+      <button onclick="closeMessage()">✖</button>
+    </div>
+  </form>
+</section>
+
+<footer>
+  هذا الموقع لا يمثل جهة رسمية، وإنما نشاط تطوعي لمساعدة الزملاء بمركز الخبرة القضائية في جميع فروع ليبيا.
+</footer>
+
+<script>
+function toggleExpertField() {
+  const role = document.getElementById("role").value;
+  document.getElementById("expert-field").style.display =
+    role === "خبير قضائي" ? "block" : "none";
+}
+function toggleOtherBranch() {
+  const branch = document.getElementById("branch").value;
+  document.getElementById("other-branch").style.display =
+    branch === "أخرى" ? "block" : "none";
+}
+function calculateDifference() {
+  const before = parseFloat(document.getElementById("salary-before").value) || 0;
+  const after  = parseFloat(document.getElementById("salary-after").value)  || 0;
+  const diffBox = document.getElementById("difference");
+  const note = document.getElementById("note");
+
+  if (!before || !after) {
+    diffBox.textContent = "الفرق بعد خصم 1٪ تكافل اجتماعي: —";
+    diffBox.classList.remove("show");
+    note.style.display = "none";
+    return;
+  }
+
+  const deduction = after * 0.01;
+  const diffAfterDeduction = (after - before) - deduction;
+  const sign = diffAfterDeduction > 0 ? "+" : "";
+
+  diffBox.textContent = `الفرق بعد خصم 1٪ تكافل اجتماعي: ${sign}${diffAfterDeduction.toFixed(2)} د.ل`;
+  diffBox.style.color = diffAfterDeduction >= 0 ? "#8fe388" : "#e74c3c";
+  diffBox.classList.add("show");
+  note.style.display = "block";
+}
+
+function validateForm(event) {
+  event.preventDefault();
+  const form = document.getElementById('complaintForm');
+  const inputs = form.querySelectorAll('input[required], select[required]');
+  for (const input of inputs) {
+    if (!input.value.trim()) {
+      alert("يرجى تعبئة جميع الحقول المطلوبة.");
+      return false;
+    }
+  }
+
+  fetch(form.action, {
+    method: "POST",
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
+  }).then(response => {
+    if (response.ok) {
+      form.reset();
+      document.getElementById("note").style.display = "none";
+      document.getElementById("difference").classList.remove("show");
+      const msg = document.getElementById("successMessage");
+      msg.style.display = "block";
+      setTimeout(() => msg.style.display = "none", 10000); // 10 ثوانٍ
+    } else {
+      alert("حدث خطأ أثناء الإرسال، حاول مجددًا.");
+    }
+  }).catch(() => alert("فشل الاتصال، تحقق من الإنترنت."));
+  return false;
+}
+function closeMessage() {
+  document.getElementById("successMessage").style.display = "none";
+}
+</script>
+</body>
+</html>
