@@ -5,7 +5,7 @@
 <title>نافذة رفع بيانات لغرض الشكوى</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
 <style>
-html { font-size: 125%; }
+html { font-size: 125%; } /* تكبير كل شيء بنسبة 125% */
 * { box-sizing: border-box; }
 body {
   font-family: "Cairo", sans-serif;
@@ -15,7 +15,6 @@ body {
   padding: 0;
   overflow-x: hidden;
 }
-
 header {
   text-align: center;
   padding: 31px 12.5px;
@@ -23,17 +22,8 @@ header {
   box-shadow: 0 2px 8px rgba(0,0,0,0.6);
   position: relative;
 }
-
-/* Flex container للشعار والدوائر */
-.header-flex {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 200px; /* المسافة بين الشعار والدوائر */
-}
-
 header .logo-wrapper {
+  display: inline-block;
   width: 250px;
   height: 250px;
   border-radius: 50%;
@@ -43,7 +33,6 @@ header .logo-wrapper {
   animation: pulse 5s infinite ease-in-out;
 }
 header img { width: 100%; height: 100%; object-fit: cover; }
-
 header h2 {
   color: #8fe388;
   font-size: 27.5px;
@@ -55,54 +44,6 @@ header h1 {
   font-size: 30px;
   margin-top: 6.25px;
 }
-
-/* دوائر الإحصائيات */
-.stats-circle {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: clamp(150px, 22vw, 180px);
-  height: clamp(150px, 22vw, 180px);
-  border-radius: 50%;
-  opacity: 0;
-  transform: scale(0.7);
-  transition: all 0.6s ease;
-  animation: pulseCircle 2s infinite ease-in-out;
-}
-.stats-circle.show {
-  opacity: 1;
-  transform: scale(1);
-}
-.red-circle {
-  background: radial-gradient(circle at 30% 30%, #ff6b6b, #c0392b);
-  color: #fff;
-  border: 3px solid #c0392b;
-  box-shadow: 0 0 15px rgba(255,0,0,0.4);
-}
-.green-circle {
-  background: radial-gradient(circle at 30% 30%, #36d07a, #27ae60);
-  color: #fff;
-  border: 3px solid #27ae60;
-  box-shadow: 0 0 15px rgba(0,255,0,0.4);
-}
-.stat-number { font-size: 36px; font-weight: bold; text-align: center; line-height: 1.2; }
-.stat-label { font-size: 16px; margin-top: 5px; text-align: center; }
-
-@keyframes pulseCircle {
-  0%,100% { transform: scale(1); box-shadow: 0 0 15px rgba(255,255,255,0.2); }
-  50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(255,255,255,0.4); }
-}
-@keyframes pulse {
-  0%,100% { transform: scale(1); box-shadow: 0 0 25px rgba(45,159,89,0.4); }
-  50% { transform: scale(1.05); box-shadow: 0 0 44px rgba(45,159,89,0.7); }
-}
-@keyframes softPulse {
-  0%,100% { opacity: 1; text-shadow: 0 0 13px rgba(143,227,136,0.4); }
-  50% { opacity: 0.85; text-shadow: 0 0 25px rgba(143,227,136,0.7); }
-}
-
-/* باقي تنسيق النموذج كما في النسخة الأصلية */
 .form-container {
   position: relative;
   max-width: 1062px;
@@ -188,27 +129,22 @@ footer { text-align: center; font-size: 16.25px; color: #888; margin-top: 37px; 
   font-size: 22.5px;
   cursor: pointer;
 }
+@keyframes pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(45,159,89,0.4); }
+  50% { transform: scale(1.05); box-shadow: 0 0 44px rgba(45,159,89,0.7); }
+}
+@keyframes softPulse {
+  0%, 100% { opacity: 1; text-shadow: 0 0 13px rgba(143,227,136,0.4); }
+  50% { opacity: 0.85; text-shadow: 0 0 25px rgba(143,227,136,0.7); }
+}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-flex">
-    <div class="stats-circle red-circle" id="diff-circle">
-      <div class="stat-number" id="diff-total">7451.00 د.ل</div>
-      <div class="stat-label">إجمالي الفروقات</div>
-    </div>
-
-    <div class="logo-wrapper">
-      <img src="14CB1AC8-5C20-4ABE-8C85-3DF426A41645.png" alt="شعار المركز">
-    </div>
-
-    <div class="stats-circle green-circle" id="complaint-circle">
-      <div class="stat-number" id="complaint-count">74</div>
-      <div class="stat-label">عدد الشكاوى</div>
-    </div>
+  <div class="logo-wrapper">
+    <img src="14CB1AC8-5C20-4ABE-8C85-3DF426A41645.png" alt="شعار المركز">
   </div>
-
   <h2>تجمع خبراء وموظفي مركز الخبرة القضائية والبحوث</h2>
   <h1>نافذة رفع بيانات لغرض الشكوى</h1>
 </header>
@@ -218,21 +154,22 @@ footer { text-align: center; font-size: 16.25px; color: #888; margin-top: 37px; 
   <div class="two-columns">
     <div>
       <label for="name">الاسم الكامل</label>
-      <input type="text" id="name" required placeholder="اكتب اسمك الكامل">
+      <input type="text" id="name" name="الاسم الكامل" required placeholder="اكتب اسمك الكامل">
     </div>
     <div>
       <label for="salary-status">حالة المرتب</label>
-      <select id="salary-status" required>
+      <select id="salary-status" name="حالة المرتب" required>
         <option value="">اختر الحالة</option>
         <option>مستمر</option>
         <option>موقوف</option>
       </select>
     </div>
   </div>
+
   <div class="two-columns">
     <div>
       <label for="branch">الفرع</label>
-      <select id="branch" required onchange="toggleOtherBranch()">
+      <select id="branch" name="الفرع" required onchange="toggleOtherBranch()">
         <option value="">اختر الفرع</option>
         <option>بنغازي</option>
         <option>طرابلس</option>
@@ -242,11 +179,11 @@ footer { text-align: center; font-size: 16.25px; color: #888; margin-top: 37px; 
         <option>بن وليد</option>
         <option>أخرى</option>
       </select>
-      <input type="text" id="other-branch" style="display:none;margin-top:12.5px;" placeholder="اكتب اسم الفرع">
+      <input type="text" id="other-branch" name="فرع آخر" style="display:none;margin-top:12.5px;" placeholder="اكتب اسم الفرع">
     </div>
     <div>
       <label for="role">الصفة</label>
-      <select id="role" required onchange="toggleExpertField()">
+      <select id="role" name="الصفة" required onchange="toggleExpertField()">
         <option value="">اختر الصفة</option>
         <option>موظف</option>
         <option>خبير قضائي</option>
@@ -257,70 +194,64 @@ footer { text-align: center; font-size: 16.25px; color: #888; margin-top: 37px; 
 
   <div id="expert-field" style="display:none;">
     <label for="specialty">الاختصاص</label>
-    <input type="text" id="specialty" placeholder="اكتب اختصاصك القضائي">
+    <input type="text" id="specialty" name="الاختصاص" placeholder="اكتب اختصاصك القضائي">
   </div>
 
   <div class="two-columns">
     <div>
-      <label for="last-edit">تاريخ آخر تعديل</label>
-      <input type="date" id="last-edit" required>
+      <label for="last-edit">تاريخ آخر تعديل وفقا لإدارة الميزانية</label>
+      <input type="date" id="last-edit" name="تاريخ آخر تعديل" required>
     </div>
     <div>
       <label for="edit-type">نوع التعديل</label>
-      <input type="text" id="edit-type" required placeholder="نوع التعديل">
+      <input type="text" id="edit-type" name="نوع التعديل" required placeholder="اكتب نوع التعديل">
     </div>
   </div>
 
   <div class="two-columns">
     <div>
-      <label for="salary-before">الراتب قبل الصرف اللحظي</label>
-      <input type="number" id="salary-before" required oninput="calculateDifference()">
+      <label for="salary-before">قيمة الراتب قبل الصرف اللحظي</label>
+      <input type="number" id="salary-before" name="الراتب قبل الصرف" required placeholder="أدخل القيمة بالدينار" oninput="calculateDifference()">
     </div>
     <div>
-      <label for="salary-after">الراتب اللحظي</label>
-      <input type="number" id="salary-after" required oninput="calculateDifference()">
+      <label for="salary-after">قيمة الراتب اللحظي</label>
+      <input type="number" id="salary-after" name="الراتب بعد الصرف" required placeholder="أدخل القيمة الحالية بالدينار" oninput="calculateDifference()">
     </div>
   </div>
 
   <div id="difference" class="difference-box">الفرق بعد خصم 1٪ تكافل اجتماعي: —</div>
   <div id="note" class="note">⚠️ استقطاع 1٪ خاص بالتكافل الاجتماعي</div>
 
-  <label for="phone">رقم الهاتف</label>
-  <input type="tel" id="phone" required placeholder="رقم واتساب">
-  <button type="submit">إرسال البيانات</button>
+  <label for="phone">رقم الهاتف (يجب أن يكون مرتبط بحساب واتساب)</label>
+  <input type="tel" id="phone" name="رقم الهاتف" required placeholder="أدخل رقم هاتفك">
 
+  <button type="submit">إرسال البيانات</button>
   <div id="successMessage" class="success-message">
-    ✅ تم الإرسال بنجاح<br>سيتم التواصل خلال 24 ساعة.
+    ✅ تم الإرسال بنجاح<br>
+    سيتم التواصل عبر واتساب في غضون 24 ساعة لاستكمال الإجراءات.
     <button onclick="closeMessage()">✖</button>
   </div>
 </form>
 </section>
 
-<footer>هذا الموقع لا يمثل جهة رسمية، بل جهد تطوعي.</footer>
+<footer>
+  هذا الموقع لا يمثل جهة رسمية، وإنما نشاط تطوعي لمساعدة الزملاء بمركز الخبرة القضائية في جميع فروع ليبيا.
+</footer>
 
 <script>
-let totalDifference = parseFloat(localStorage.getItem("totalDifference")) || 7451;
-let complaintCount = parseInt(localStorage.getItem("complaintCount")) || 74;
-
-window.addEventListener("load", () => {
-  document.getElementById("diff-total").textContent = totalDifference.toFixed(2) + " د.ل";
-  document.getElementById("complaint-count").textContent = complaintCount;
-  document.getElementById("diff-circle").classList.add("show");
-  document.getElementById("complaint-circle").classList.add("show");
-});
-
 function toggleExpertField() {
+  const role = document.getElementById("role").value;
   document.getElementById("expert-field").style.display =
-    document.getElementById("role").value === "خبير قضائي" ? "block" : "none";
+    role === "خبير قضائي" ? "block" : "none";
 }
 function toggleOtherBranch() {
+  const branch = document.getElementById("branch").value;
   document.getElementById("other-branch").style.display =
-    document.getElementById("branch").value === "أخرى" ? "block" : "none";
+    branch === "أخرى" ? "block" : "none";
 }
-
 function calculateDifference() {
   const before = parseFloat(document.getElementById("salary-before").value) || 0;
-  const after = parseFloat(document.getElementById("salary-after").value) || 0;
+  const after  = parseFloat(document.getElementById("salary-after").value)  || 0;
   const diffBox = document.getElementById("difference");
   const note = document.getElementById("note");
 
@@ -328,15 +259,13 @@ function calculateDifference() {
     diffBox.textContent = "الفرق بعد خصم 1٪ تكافل اجتماعي: —";
     diffBox.classList.remove("show");
     note.style.display = "none";
-    diffBox.dataset.value = 0;
     return;
   }
 
   const deduction = after * 0.01;
   const diffAfterDeduction = (after - before) - deduction;
-  diffBox.dataset.value = diffAfterDeduction;
+  const sign = diffAfterDeduction > 0 ? "+" : "";
 
-  const sign = diffAfterDeduction >= 0 ? "+" : "";
   diffBox.textContent = `الفرق بعد خصم 1٪ تكافل اجتماعي: ${sign}${diffAfterDeduction.toFixed(2)} د.ل`;
   diffBox.style.color = diffAfterDeduction >= 0 ? "#8fe388" : "#e74c3c";
   diffBox.classList.add("show");
@@ -345,25 +274,54 @@ function calculateDifference() {
 
 function validateForm(event) {
   event.preventDefault();
-  const form = document.getElementById("complaintForm");
-  const diffValue = parseFloat(document.getElementById("difference").dataset.value) || 0;
+  const form = document.getElementById('complaintForm');
+  const inputs = form.querySelectorAll('input[required], select[required]');
+  for (const input of inputs) {
+    if (!input.value.trim()) {
+      alert("يرجى تعبئة جميع الحقول المطلوبة.");
+      return false;
+    }
+  }
 
-  totalDifference += diffValue;
-  complaintCount += 1;
+  // جمع البيانات
+  const data = {
+    "الاسم الكامل": document.getElementById("name").value,
+    "حالة المرتب": document.getElementById("salary-status").value,
+    "الفرع": document.getElementById("branch").value === "أخرى" ? document.getElementById("other-branch").value : document.getElementById("branch").value,
+    "الصفة": document.getElementById("role").value,
+    "الاختصاص": document.getElementById("specialty").value,
+    "تاريخ آخر تعديل": document.getElementById("last-edit").value,
+    "نوع التعديل": document.getElementById("edit-type").value,
+    "الراتب قبل الصرف": document.getElementById("salary-before").value,
+    "الراتب بعد الصرف": document.getElementById("salary-after").value,
+    "رقم الهاتف": document.getElementById("phone").value
+  };
 
-  document.getElementById("diff-total").textContent = totalDifference.toFixed(2) + " د.ل";
-  document.getElementById("complaint-count").textContent = complaintCount;
+  // رسالة للتليجرام
+  let message = "📩 تم إرسال شكوى جديدة:\n\n";
+  for (const key in data) {
+    if (data[key]) message += `*${key}*: ${data[key]}\n`;
+  }
 
-  localStorage.setItem("totalDifference", totalDifference);
-  localStorage.setItem("complaintCount", complaintCount);
+  const token = "8454996463:AAF9c2vUPOh_0KhT_uARf5uHR1r4iR6aJa8";
+  const chatId = "7584556990";
 
-  const msg = document.getElementById("successMessage");
-  msg.style.display = "block";
-  setTimeout(() => msg.style.display = "none", 10000);
-
-  form.reset();
-  document.getElementById("difference").classList.remove("show");
-  document.getElementById("note").style.display = "none";
+  fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: "POST",
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: "Markdown" })
+  }).then(response => {
+    if (response.ok) {
+      form.reset();
+      document.getElementById("note").style.display = "none";
+      document.getElementById("difference").classList.remove("show");
+      const msg = document.getElementById("successMessage");
+      msg.style.display = "block";
+      setTimeout(() => msg.style.display = "none", 10000);
+    } else {
+      alert("حدث خطأ أثناء الإرسال، حاول مجددًا.");
+    }
+  }).catch(() => alert("فشل الاتصال بالإنترنت أو البوت."));
 }
 
 function closeMessage() {
