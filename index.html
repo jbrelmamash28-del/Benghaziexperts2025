@@ -5,7 +5,7 @@
 <title>نافذة رفع بيانات لغرض الشكوى</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
 <style>
-html { font-size: 125%; } /* تكبير كل شيء بنسبة 125% */
+html { font-size: 125%; }
 * { box-sizing: border-box; }
 body {
   font-family: "Cairo", sans-serif;
@@ -15,6 +15,7 @@ body {
   padding: 0;
   overflow-x: hidden;
 }
+
 header {
   text-align: center;
   padding: 31px 12.5px;
@@ -22,6 +23,15 @@ header {
   box-shadow: 0 2px 8px rgba(0,0,0,0.6);
   position: relative;
 }
+
+/* Flex container للشعار والدوائر */
+.header-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 200px; /* التباعد بين الشعار والدوائر */
+}
+
 header .logo-wrapper {
   display: inline-block;
   width: 250px;
@@ -33,6 +43,7 @@ header .logo-wrapper {
   animation: pulse 5s infinite ease-in-out;
 }
 header img { width: 100%; height: 100%; object-fit: cover; }
+
 header h2 {
   color: #8fe388;
   font-size: 27.5px;
@@ -44,6 +55,54 @@ header h1 {
   font-size: 30px;
   margin-top: 6.25px;
 }
+
+/* دوائر الإحصائيات */
+.stats-circle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: all 0.6s ease;
+  animation: pulseCircle 2s infinite ease-in-out;
+}
+.stats-circle.show {
+  opacity: 1;
+  transform: scale(1);
+}
+.red-circle {
+  background: radial-gradient(circle at 30% 30%, #ff6b6b, #c0392b);
+  color: #fff;
+  border: 3px solid #c0392b;
+  box-shadow: 0 0 15px rgba(255,0,0,0.4);
+}
+.green-circle {
+  background: radial-gradient(circle at 30% 30%, #36d07a, #27ae60);
+  color: #fff;
+  border: 3px solid #27ae60;
+  box-shadow: 0 0 15px rgba(0,255,0,0.4);
+}
+.stat-number { font-size: 36px; font-weight: bold; text-align: center; line-height: 1.2; }
+.stat-label { font-size: 16px; margin-top: 5px; text-align: center; }
+
+@keyframes pulseCircle {
+  0%,100% { transform: scale(1); box-shadow: 0 0 15px rgba(255,255,255,0.2); }
+  50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(255,255,255,0.4); }
+}
+@keyframes pulse {
+  0%,100% { transform: scale(1); box-shadow: 0 0 25px rgba(45,159,89,0.4); }
+  50% { transform: scale(1.05); box-shadow: 0 0 44px rgba(45,159,89,0.7); }
+}
+@keyframes softPulse {
+  0%,100% { opacity: 1; text-shadow: 0 0 13px rgba(143,227,136,0.4); }
+  50% { opacity: 0.85; text-shadow: 0 0 25px rgba(143,227,136,0.7); }
+}
+
+/* باقي تنسيق النموذج */
 .form-container {
   position: relative;
   max-width: 1062px;
@@ -129,22 +188,27 @@ footer { text-align: center; font-size: 16.25px; color: #888; margin-top: 37px; 
   font-size: 22.5px;
   cursor: pointer;
 }
-@keyframes pulse {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(45,159,89,0.4); }
-  50% { transform: scale(1.05); box-shadow: 0 0 44px rgba(45,159,89,0.7); }
-}
-@keyframes softPulse {
-  0%, 100% { opacity: 1; text-shadow: 0 0 13px rgba(143,227,136,0.4); }
-  50% { opacity: 0.85; text-shadow: 0 0 25px rgba(143,227,136,0.7); }
-}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo-wrapper">
-    <img src="14CB1AC8-5C20-4ABE-8C85-3DF426A41645.png" alt="شعار المركز">
+  <div class="header-flex">
+    <div class="stats-circle red-circle" id="diff-circle">
+      <div class="stat-number" id="diff-total">9852.00 د.ل</div>
+      <div class="stat-label">إجمالي الفروقات</div>
+    </div>
+
+    <div class="logo-wrapper">
+      <img src="14CB1AC8-5C20-4ABE-8C85-3DF426A41645.png" alt="شعار المركز">
+    </div>
+
+    <div class="stats-circle green-circle" id="complaint-circle">
+      <div class="stat-number" id="complaint-count">74</div>
+      <div class="stat-label">عدد الشكاوى</div>
+    </div>
   </div>
+
   <h2>تجمع خبراء وموظفي مركز الخبرة القضائية والبحوث</h2>
   <h1>نافذة رفع بيانات لغرض الشكوى</h1>
 </header>
@@ -226,6 +290,7 @@ footer { text-align: center; font-size: 16.25px; color: #888; margin-top: 37px; 
   <input type="tel" id="phone" name="رقم الهاتف" required placeholder="أدخل رقم هاتفك">
 
   <button type="submit">إرسال البيانات</button>
+
   <div id="successMessage" class="success-message">
     ✅ تم الإرسال بنجاح<br>
     سيتم التواصل عبر واتساب في غضون 24 ساعة لاستكمال الإجراءات.
@@ -239,16 +304,28 @@ footer { text-align: center; font-size: 16.25px; color: #888; margin-top: 37px; 
 </footer>
 
 <script>
+let totalDifference = parseFloat(localStorage.getItem("totalDifference")) || 9852;
+let complaintCount = parseInt(localStorage.getItem("complaintCount")) || 74;
+let currentDifference = 0;
+
+document.getElementById("diff-total").textContent = totalDifference.toFixed(2) + " د.ل";
+document.getElementById("complaint-count").textContent = complaintCount;
+
+window.addEventListener("load", () => {
+  document.getElementById("diff-circle").classList.add("show");
+  document.getElementById("complaint-circle").classList.add("show");
+});
+
 function toggleExpertField() {
   const role = document.getElementById("role").value;
-  document.getElementById("expert-field").style.display =
-    role === "خبير قضائي" ? "block" : "none";
+  document.getElementById("expert-field").style.display = role === "خبير قضائي" ? "block" : "none";
 }
+
 function toggleOtherBranch() {
   const branch = document.getElementById("branch").value;
-  document.getElementById("other-branch").style.display =
-    branch === "أخرى" ? "block" : "none";
+  document.getElementById("other-branch").style.display = branch === "أخرى" ? "block" : "none";
 }
+
 function calculateDifference() {
   const before = parseFloat(document.getElementById("salary-before").value) || 0;
   const after  = parseFloat(document.getElementById("salary-after").value)  || 0;
@@ -259,15 +336,15 @@ function calculateDifference() {
     diffBox.textContent = "الفرق بعد خصم 1٪ تكافل اجتماعي: —";
     diffBox.classList.remove("show");
     note.style.display = "none";
+    currentDifference = 0;
     return;
   }
 
   const deduction = after * 0.01;
-  const diffAfterDeduction = (after - before) - deduction;
-  const sign = diffAfterDeduction > 0 ? "+" : "";
-
-  diffBox.textContent = `الفرق بعد خصم 1٪ تكافل اجتماعي: ${sign}${diffAfterDeduction.toFixed(2)} د.ل`;
-  diffBox.style.color = diffAfterDeduction >= 0 ? "#8fe388" : "#e74c3c";
+  currentDifference = (after - before) - deduction;
+  const sign = currentDifference > 0 ? "+" : "";
+  diffBox.textContent = `الفرق بعد خصم 1٪ تكافل اجتماعي: ${sign}${currentDifference.toFixed(2)} د.ل`;
+  diffBox.style.color = currentDifference >= 0 ? "#8fe388" : "#e74c3c";
   diffBox.classList.add("show");
   note.style.display = "block";
 }
@@ -283,7 +360,15 @@ function validateForm(event) {
     }
   }
 
-  // جمع البيانات
+  totalDifference += currentDifference;
+  complaintCount += 1;
+
+  localStorage.setItem("totalDifference", totalDifference);
+  localStorage.setItem("complaintCount", complaintCount);
+
+  document.getElementById("diff-total").textContent = totalDifference.toFixed(2) + " د.ل";
+  document.getElementById("complaint-count").textContent = complaintCount;
+
   const data = {
     "الاسم الكامل": document.getElementById("name").value,
     "حالة المرتب": document.getElementById("salary-status").value,
@@ -294,10 +379,10 @@ function validateForm(event) {
     "نوع التعديل": document.getElementById("edit-type").value,
     "الراتب قبل الصرف": document.getElementById("salary-before").value,
     "الراتب بعد الصرف": document.getElementById("salary-after").value,
+    "فرق الراتب بعد الاستقطاع": currentDifference.toFixed(2),
     "رقم الهاتف": document.getElementById("phone").value
   };
 
-  // رسالة للتليجرام
   let message = "📩 تم إرسال شكوى جديدة:\n\n";
   for (const key in data) {
     if (data[key]) message += `*${key}*: ${data[key]}\n`;
@@ -311,17 +396,16 @@ function validateForm(event) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: "Markdown" })
   }).then(response => {
-    if (response.ok) {
-      form.reset();
-      document.getElementById("note").style.display = "none";
-      document.getElementById("difference").classList.remove("show");
-      const msg = document.getElementById("successMessage");
-      msg.style.display = "block";
-      setTimeout(() => msg.style.display = "none", 10000);
-    } else {
-      alert("حدث خطأ أثناء الإرسال، حاول مجددًا.");
-    }
+    if (!response.ok) alert("حدث خطأ أثناء الإرسال، حاول مجددًا.");
   }).catch(() => alert("فشل الاتصال بالإنترنت أو البوت."));
+
+  const msg = document.getElementById("successMessage");
+  msg.style.display = "block";
+  setTimeout(() => msg.style.display = "none", 10000);
+
+  form.reset();
+  document.getElementById("difference").classList.remove("show");
+  document.getElementById("note").style.display = "none";
 }
 
 function closeMessage() {
