@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المقترح الفني المبدئي لتطوير - محطة الزاوية</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#030712',
+                            card: '#0b1329',
+                            primary: '#0ea5e9',
+                            secondary: '#10b981',
+                            accent: '#f59e0b',
+                            danger: '#ef4444',
+                            border: '#1e293b',
+                            textMuted: '#94a3b8',
+                            textMain: '#f8fafc'
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030712;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0ea5e9;
+        }
+        .sidebar-scroll {
+            scrollbar-width: thin;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        section {
+            scroll-margin-top: 100px;
+        }
+        @media (max-width: 768px) {
+            section {
+                scroll-margin-top: 80px;
+            }
+        }
+        .math-box {
+            position: relative;
+            background: radial-gradient(circle at top left, #050b18 0%, #01040a 100%);
+        }
+        .math-box::before {
+            content: "FORMULA";
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #10b981;
+            font-weight: bold;
+            letter-spacing: 1px;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body class="bg-brand-dark text-brand-textMain font-cairo antialiased min-h-screen flex flex-col md:flex-row overflow-x-hidden">
+
+    <!-- Mobile Header Bar -->
+    <header class="md:hidden flex items-center justify-between bg-brand-card border-b border-brand-border p-4 sticky top-0 z-50 w-full shrink-0">
+        <h1 class="text-sm font-black tracking-wide text-brand-textMain flex items-center gap-2">
+            <i class="fa-solid fa-industry text-brand-primary"></i>
+            محطة تحلية مياه الزاوية
+        </h1>
+        <button id="mobile-menu-btn" class="text-brand-textMain hover:text-brand-primary focus:outline-none p-2 rounded-lg hover:bg-brand-border transition-colors">
+            <i class="fa-solid fa-bars text-xl"></i>
+        </button>
+    </header>
+
+    <!-- Sidebar Dimming Overlay -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-brand-dark/80 backdrop-blur-sm z-40 hidden transition-opacity duration-300"></div>
+
+    <!-- لوحة التحكم الجانبية للتنقل الذكي والمتشعب -->
+    <aside id="sidebar" class="w-80 bg-brand-card border-l border-brand-border h-screen fixed md:sticky top-0 right-0 flex flex-col z-50 shrink-0 transition-transform duration-300 transform translate-x-full md:translate-x-0">
+        <div class="p-6 border-b border-brand-border text-center relative">
+            <!-- Close Button on Mobile -->
+            <button id="sidebar-close-btn" class="md:hidden absolute top-4 left-4 text-brand-textMuted hover:text-brand-textMain p-2 rounded-lg hover:bg-brand-border transition-colors">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h1 class="text-lg font-black tracking-wide text-brand-textMain flex items-center justify-center gap-2">
+                <i class="fa-solid fa-industry text-brand-primary"></i>
+                محطة تحلية مياه الزاوية
+            </h1>
+            <p class="text-xs text-brand-primary font-bold mt-2">GDCOL - المقترح الهندسي المطور</p>
+        </div>
+        
+        <!-- قائمة الفصول المتشعبة -->
+        <nav class="flex-grow overflow-y-auto sidebar-scroll p-4 space-y-2">
+            <p class="text-[10px] text-brand-textMuted font-bold uppercase tracking-wider px-3 mb-1">الفصول والمستندات الفنية</p>
+            
+            <a href="#executive" class="flex items-center gap-3 px-3 py-2 text-sm text-brand-textMuted rounded-lg hover:bg-brand-border hover:text-brand-textMain transition-all">
+                <span class="font-mono text-brand-primary text-xs">01</span> الملخص التنفيذي وهندسة القيمة
+            </a>
+            <a href="#assessment" class="flex items-center gap-3 px-3 py-2 text-sm text-brand-textMuted rounded-lg hover:bg-brand-border hover:text-brand-textMain transition-all">
+                <span class="font-mono text-brand-primary text-xs">02</span> دراسة الوضع المعوق للتقادم
+            </a>
+            <a href="#feed" class="flex items-center gap-3 px-3 py-2 text-sm text-brand-textMuted rounded-lg hover:bg-brand-border hover:text-brand-textMain transition-all">
+                <span class="font-mono text-brand-primary text-xs">03</span> منهجية المعاينة الـ FEED الخماسية
+            </a>
+            <a href="#database" class="flex items-center gap-3 px-3 py-2 text-sm text-brand-textMuted rounded-lg hover:bg-brand-border hover:text-brand-textMain transition-all">
+                <span class="font-mono text-brand-primary text-xs">04</span> ترحيل قاعدة بيانات Yokogawa
+            </a>
+            <a href="#security" class="flex items-center gap-3 px-3 py-2 text-sm text-brand-textMuted rounded-lg hover:bg-brand-border hover:text-brand-textMain transition-all">
+                <span class="font-mono text-brand-primary text-xs">05</span> التقسيم الأمني السيبراني IEC 62443
+            </a>
+            <a href="#datapipe" class="flex items-center gap-3 px-3 py-2 text-sm text-brand-textMuted rounded-lg hover:bg-brand-border hover:text-brand-textMain transition-all">
+                <span class="font-mono text-brand-primary text-xs">06</span> مكدس وهندسة البيانات الصناعية
+            </a>
+            <a href="#modeling" class="flex items-center gap-3 px-3 py-2 text-sm text-brand-textMuted rounded-lg hover:bg-brand-border hover:text-brand-textMain transition-all">
+                <span class="font-mono text-brand-primary text-xs">07</span> النمذجة الرياضية والذكاء للأصول
+            </a>
+            <a href="#governance" class="flex items-center gap-3 px-3 py-2 text-sm text-brand-textMuted rounded-lg hover:bg-brand-border hover:text-brand-textMain transition-all">
+                <span class="font-mono text-brand-primary text-xs">08</span> حوكمة النماذج والشفافية XAI
+            </a>
+            <a href="#training" class="flex items-center gap-3 px-3 py-2 text-sm text-brand-textMuted rounded-lg hover:bg-brand-border hover:text-brand-textMain transition-all">
+                <span class="font-mono text-brand-primary text-xs">09</span> أكاديمية التدريب ونظام الـ OTS
+            </a>
+            <a href="#rollout" class="flex items-center gap-3 px-3 py-2 text-sm text-brand-textMuted rounded-lg hover:bg-brand-border hover:text-brand-textMain transition-all">
+                <span class="font-mono text-brand-primary text-xs">10</span> خطة الترحيل الساخن والمخاطر
+            </a>
+            <a href="#matrix" class="flex items-center gap-3 px-3 py-2 text-sm text-brand-textMuted rounded-lg hover:bg-brand-border hover:text-brand-textMain transition-all">
+                <span class="font-mono text-brand-primary text-xs">11</span> مصفوفة التقييم والمقارنة الفنية
+            </a>
+            <a href="#standards" class="flex items-center gap-3 px-3 py-2 text-sm text-brand-textMuted rounded-lg hover:bg-brand-border hover:text-brand-textMain transition-all">
+                <span class="font-mono text-brand-primary text-xs">12</span> المراجع والمعايير الدولية المعتمدة
+            </a>
+        </nav>
+        
+        <div class="p-4 border-t border-brand-border text-center">
+            <p class="text-[10px] text-brand-textMuted font-bold">المستند الفني الإصدار 3.2</p>
+            <p class="text-[9px] text-brand-primary mt-1">تطوير مستشارين مستقلين لنظم الأتمتة</p>
+        </div>
+    </aside>
+
+    <!-- منطقة المحتوى الرئيسية -->
+    <main class="flex-grow overflow-y-auto md:h-screen p-6 sm:p-8 md:p-12 lg:p-16 max-w-7xl mx-auto space-y-12 md:space-y-16 w-full">
+        
+        <!-- الترويسة الرئيسية والbadges الفنية -->
+        <header class="border-b border-brand-border pb-10">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <span class="bg-brand-primary/10 border border-brand-primary/30 text-brand-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                        مقترح مبدئي
+                    </span>
+                    <h1 class="text-4xl font-extrabold mt-4 tracking-tight leading-tight">
+                        المقترح الفني المبدئي للتحول الرقمي وترقية نظام الـ DCS
+                    </h1>
+                    <p class="text-brand-textMuted mt-2 text-lg">
+                        رؤية تكنولوجية معززة لعلاج تقادم واجهات المشغلين وحقن الذكاء الاصطناعي بمحطة الزاوية
+                    </p>
+                </div>
+                <div class="shrink-0 flex gap-2">
+                    <button class="bg-brand-border border border-brand-border text-brand-textMain px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-brand-dark transition-all" onclick="window.print()">
+                        <i class="fa-solid fa-print"></i> تصدير PDF / طباعة
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- الفصل الأول: الملخص التنفيذي وهندسة القيمة -->
+        <section id="executive" class="scroll-margin-top-12 space-y-6">
+            <h2 class="text-2xl font-bold flex items-center gap-3 text-brand-textMain">
+                <span class="font-mono text-brand-primary">01 |</span> الملخص التنفيذي وفلسفة هندسة القيمة
+            </h2>
+            <div class="prose prose-invert max-w-none text-brand-textMuted leading-relaxed space-y-4 text-justify">
+                <p>
+                    تعد محطة تحلية مياه الزاوية أحد الشرايين السيادية والاستراتيجية لإمداد مياه الشرب وتوازن شبكة الطاقة والمياه في ليبيا. غير أن استمرار عمل المحطة معتمداً بالكامل على بيئة تشغيلية متقادمة برمجياً وفيزيائياً مثل <span class="tech-tag bg-brand-border border border-brand-border text-brand-textMain px-2 py-0.5 rounded font-mono text-sm">Yokogawa CENTUM CS 3000</span> يضع المنشأة بأكملها أمام مخاطر داهمة تتمثل في إمكانية السقوط الفجائي لواجهات التحكم والمراقبة، وتوقف المعالجة اللحظية، مع ندرة وصعوبة تأمين قطع الغيار والعتاد المتوافق.
+                </p>
+                <p>
+                    يهدف هذا المقترح الهندسي المطوّر إلى كسر هذه المعضلة التشغيلية عبر دمج تكنولوجيا **الترقية الطبيعية الممتدة (Native Lifecycle Upgrade)** إلى نظام <span class="tech-tag bg-brand-border border border-brand-border text-brand-textMain px-2 py-0.5 rounded font-mono text-sm">CENTUM VP</span> الحديث والمدعوم ببنية **فصل البرمجيات عن العتاد المادي (Digital Decoupling)**. هذا الفصل سيجعل برمجيات التشغيل والذكاء الاصطناعي معزولة بالكامل داخل حاويات افتراضية مستقلة (<span class="tech-tag bg-brand-border border border-brand-border text-brand-textMain px-2 py-0.5 rounded font-mono text-sm">Docker & Kubernetes</span>). من خلال هذه المعمارية المتقدمة، نضمن بقاء عقل المنظومة والمنطق البرمجي للمحطة مستقلاً وحياً، بحيث تستطيع الإدارة مستقبلاً ترقية الحواسب أو الشاشات أو البنية التحتية الصلبة بضغطة زر واحدة ودون توقف العمليات.
+                </p>
+                <p>
+                    بالتوازي، يقدم المقترح حقناً فورياً لـ **خوارزميات ذكاء اصطناعي صناعية مفسّرة (Native Explainable AI)** تعمل محلياً تماماً، وتستهدف خفض استهلاك الطاقة الكيميائية والحرارية في الغلايات، وحماية المبخرات من الترسبات، ومراقبة تآكل الأصول الدوارة بموثوقية تفوق بكثير الأنظمة الأكاديمية المبهمة أو الأنظمة التقليدية المغلقة.
+                </p>
+            </div>
+        </section>
+
+        <!-- الفصل الثاني: دراسة الوضع المعوق للتقادم -->
+        <section id="assessment" class="scroll-margin-top-12 space-y-6">
+            <h2 class="text-2xl font-bold flex items-center gap-3 text-brand-textMain">
+                <span class="font-mono text-brand-primary">02 |</span> دراسة الوضع الحالي ومعوقات التقادم (Obsolescence Risk Audit)
+            </h2>
+            <div class="prose prose-invert max-w-none text-brand-textMuted leading-relaxed space-y-4 text-justify">
+                <p>
+                    إن استمرارية تشغيل محطات عمل المشغلين (OWS) بنظام CS 3000 يعاني من معوقات فيزيائية وبرمجية متداخلة يجب تفكيكها لفهم أبعاد الخطر:
+                </p>
+                <ul class="list-disc pr-6 space-y-2">
+                    <li><strong class="text-brand-textMain">التقادم البرمجي ومخاطر نظم التشغيل:</strong> تعمل واجهات CS 3000 على منصات قديمة (Windows XP / Windows 7) والتي أصبحت تفتقر كلياً لأي دعم أمني من الشركات المطورة، مما يترك المنظومة هشة أمام البرمجيات الخبيثة والتوقف المفاجئ لنواة التشغيل.</li>
+                    <li><strong class="text-brand-textMain">فقدان التوافق الفيزيائي لكروت الشبكة:</strong> تعتمد شبكة Vnet الأصلية على كروت واجهة مخصصة (مثل كروت VI701 / VI702) ذات منافذ قديمة (PCI/ISA) لم تعد اللوحات الأم الحديثة تدعمها، مما يعني أن تلف أي لوحة أم في حاسوب OWS يتطلب هندسة ترقيعية معقدة وغير مضمونة.</li>
+                    <li><strong class="text-brand-textMain">إجهاد الذاكرة في معالجات الحقل (FCS Load):</strong> مع تراكم الإشارات وتوسعة المحطة عبر السنوات، تعاني معالجات الحقل الحالية من زيادة أحمال القراءة والكتابة والبحث التتابعي، مما يهدد بتأخر استجابة صمامات الأمان والإنذارات الحيوية.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- الفصل الثالث: منهجية المعاينة الميدانية التفصيلية FEED -->
+        <section id="feed" class="scroll-margin-top-12 space-y-6">
+            <h2 class="text-2xl font-bold flex items-center gap-3 text-brand-textMain">
+                <span class="font-mono text-brand-primary">03 |</span> منهجية المعاينة الميدانية التفصيلية وإلغاء الفرضيات (5D FEED Phase)
+            </h2>
+            <div class="bg-brand-accent/5 border border-brand-accent/20 rounded-xl p-6 flex gap-4 items-start">
+                <i class="fa-solid fa-triangle-exclamation text-brand-accent text-3xl shrink-0 mt-1"></i>
+                <div class="space-y-2">
+                    <h4 class="text-brand-accent font-bold text-lg">منهجية هندسية صارمة: لا فرضيات كمية أو مالية قبل فحص الموقع</h4>
+                    <p class="text-brand-textMuted text-sm leading-relaxed">
+                        التزاماً بالأمان الفني المطلق والممارسات الهندسية الدولية المعتمدة، يرفض فريقنا الفني بشكل قطعي فرض أي كميات مسبقة، أو جداول أسعار معدات نهائية، أو تحديد مواعيد نهائية للتنفيذ قبل إنهاء مرحلة التدقيق والمعاينة الميدانية الشاملة (**Front-End Engineering Design - FEED**). إن الحلول الفعالة لمحطات التحلية لا تصاغ من فرضيات مكتبية، بل تُبنى بمطابقة دقيقة للحالة الفيزيائية الفعلية لغرفة التحكم وكوابلها داخل الموقع بالزاوية.
+                    </p>
+                </div>
+            </div>
+
+            <!-- تفاصيل خطوات الـ FEED المتشعبة -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <div class="bg-brand-card border border-brand-border p-6 rounded-xl space-y-4">
+                    <h3 class="text-brand-primary font-bold text-lg flex items-center gap-2">
+                        <i class="fa-solid fa-bolt"></i> 1. التدقيق الكهربائي وتأريض الإشارات
+                    </h3>
+                    <p class="text-brand-textMuted text-sm leading-relaxed">
+                        قياس ومطابقة ممانعة كابلات النواقل (Coaxial Bus) لشبكة التحكم، والتأكد من توافق إشارات الحلقات 4-20mA، وقياس مستويات التشويش المغناطيسي (Electromagnetic Noise) ومطابقة قنوات توزيع الطاقة والـ UPS لغرفة السيرفرات لضمان عدم حدوث هبوط فجائي في الجهد أثناء الترقية.
+                    </p>
+                </div>
+                <div class="bg-brand-card border border-brand-border p-6 rounded-xl space-y-4">
+                    <h3 class="text-brand-primary font-bold text-lg flex items-center gap-2">
+                        <i class="fa-solid fa-network-wired"></i> 2. فحص الألياف والشبكة المادية
+                    </h3>
+                    <p class="text-brand-textMuted text-sm leading-relaxed">
+                        فحص كفاءة كابلات الألياف الضوئية الممتدة بين غرف المبخرات وغرفة التحكم الرئيسية، ومطابقة استقرار مسارات الاتصال لضمان التحول التام إلى بروتوكول Vnet/IP السريع والآمن دون فقدان الإشارات.
+                    </p>
+                </div>
+                <div class="bg-brand-card border border-brand-border p-6 rounded-xl space-y-4">
+                    <h3 class="text-brand-primary font-bold text-lg flex items-center gap-2">
+                        <i class="fa-solid fa-snowflake"></i> 3. تدقيق بيئة التشغيل والحرارة
+                    </h3>
+                    <p class="text-brand-textMuted text-sm leading-relaxed">
+                        اختبار كفاءة تكييف غرف السيرفرات الحالية ومستويات الأتربة والرطوبة لتفادي تآكل الأجهزة والخوادم الجديدة عالية القدرة نتيجة الرطوبة العالية والقرب المباشر من البحر.
+                    </p>
+                </div>
+                <div class="bg-brand-card border border-brand-border p-6 rounded-xl space-y-4">
+                    <h3 class="text-brand-primary font-bold text-lg flex items-center gap-2">
+                        <i class="fa-solid fa-code"></i> 4. تدقيق منطق التحكم والإنذارات
+                    </h3>
+                    <p class="text-brand-textMuted text-sm leading-relaxed">
+                        استخراج وتفكيك قاعدة بيانات CS 3000 الحالية، ومطابقة كافة منطق التحكم (Interlock Drawing) والإنذارات البرمجية، للتأكد من نقلها وترحيلها بشكل سليم دون الحاجة لإعادة هندسة الأكواد يدوياً.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- الفصل الرابع: ترحيل قاعدة بيانات Yokogawa -->
+        <section id="database" class="scroll-margin-top-12 space-y-6">
+            <h2 class="text-2xl font-bold flex items-center gap-3 text-brand-textMain">
+                <span class="font-mono text-brand-primary">04 |</span> هندسة ترحيل قاعدة بيانات Yokogawa وتفادي الأخطاء
+            </h2>
+            <div class="prose prose-invert max-w-none text-brand-textMuted leading-relaxed space-y-4 text-justify">
+                <p>
+                    تعد خطوة ترحيل قاعدة البيانات (Database Migration) بمثابة العمود الفقري لنجاح الترقية الفورية. تهدف منهجيتنا الهندسية إلى إجراء ترحيل رقمي كامل دون فقدان أي إشارات أو إحداث خلل في حركات الصمامات ومراقبة الضغوط وفق المراحل التالية:
+                </p>
+                
+                <div class="space-y-4 mt-6">
+                    <div class="bg-brand-card border border-brand-border p-6 rounded-xl flex gap-4">
+                        <div class="bg-brand-primary/10 text-brand-primary w-12 h-12 rounded-lg flex items-center justify-center font-bold font-mono text-lg shrink-0">1</div>
+                        <div>
+                            <h4 class="text-brand-textMain font-bold text-base">قراءة وفك ترميز الملف الأساسي Common.cfg</h4>
+                            <p class="text-brand-textMuted text-sm mt-1 leading-relaxed">
+                                يتم سحب قاعدة البيانات الحالية باستخدام أداة <span class="tech-tag font-mono text-xs">System View</span> وتفكيك ملف التهيئة <span class="tech-tag font-mono text-xs">Common.cfg</span> وترجمة مسميات الإشارات (Tags)، ومعاملات الحدود (Limits)، والإنذارات، وحدود قفل الأمان (Interlocks) بالكامل وتحليلها في بيئة برمجية موازية.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-brand-card border border-brand-border p-6 rounded-xl flex gap-4">
+                        <div class="bg-brand-primary/10 text-brand-primary w-12 h-12 rounded-lg flex items-center justify-center font-bold font-mono text-lg shrink-0">2</div>
+                        <div>
+                            <h4 class="text-brand-textMain font-bold text-base">معالجة وتوافق منطق التحكم القديم وسيناريوهات الكروت التالفة</h4>
+                            <p class="text-brand-textMuted text-sm mt-1 leading-relaxed">
+                                نظراً لأن الأنظمة القديمة قد تحتوي على دوائر تحكم تتابعية مبنية على كروت أجهزة قديمة أو كروت تالفة ميكانيكياً، نقوم بمطابقتها وتحديث المنطق البرمجي ليتوافق أصلياً مع بيئة معالجة CENTUM VP الحديثة، مما يتيح ترحيل الإشارات برمجياً إلى كروت بديلة حديثة دون إتلاف التمديدات الفيزيائية غير التالفة.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-brand-card border border-brand-border p-6 rounded-xl flex gap-4">
+                        <div class="bg-brand-primary/10 text-brand-primary w-12 h-12 rounded-lg flex items-center justify-center font-bold font-mono text-lg shrink-0">3</div>
+                        <div>
+                            <h4 class="text-brand-textMain font-bold text-base">بناء بيئة الفحص الموازي والـ Virtual FCS</h4>
+                            <p class="text-brand-textMuted text-sm mt-1 leading-relaxed">
+                                نقوم ببناء محاكي كامل لوحدات التحكم الميدانية (Virtual FCS) داخل السيرفر الجديد، حيث يتم حقن قاعدة البيانات المترجمة واختبار استجابة كافة الإشارات واكتشاف أي تعارض برمجي ومعالجته بالكامل قبل البدء في نقل الإشارات على الساخن في الموقع الحقيقي.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- الفصل الخامس: التقسيم الأمني السيبراني IEC 62443 -->
+        <section id="security" class="scroll-margin-top-12 space-y-6">
+            <h2 class="text-2xl font-bold flex items-center gap-3 text-brand-textMain">
+                <span class="font-mono text-brand-primary">05 |</span> التقسيم الأمني والشبكي الصناعي وفق معيار IEC 62443
+            </h2>
+            <div class="prose prose-invert max-w-none text-brand-textMuted leading-relaxed space-y-4 text-justify">
+                <p>
+                    تعد منشآت تحلية المياه بنية تحتية بالغة الأهمية والسيادة للدول؛ لذلك فإن حماية وتأمين قنوات الاتصال والشبكات الصناعية ضد أي هجمات سيبرانية أو تداخل تشغيلي هو أولوية قصوى لمشروعنا. يلتزم مقترحنا بتصميم المعمارية الشبكية المحدثة بالكامل بالتطابق الصارم مع المعيار الدولي **IEC 62443 (Zones & Conduits)** لتفادي أي ثغرات برمجية أو شبكية:
+                </p>
+
+                <!-- رسم شبكي توضيحي للتقسيم الأمني -->
+                <div class="bg-[#0b1329] p-6 rounded-xl border border-brand-border space-y-4">
+                    <h4 class="text-brand-primary font-bold text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-shield-halved"></i> مخطط عزل الشبكات والمناطق الأمنية وفق معيار IEC 62443 SL-2+
+                    </h4>
+                    
+                    <!-- Swipe indicator for mobile touch devices -->
+                    <div class="md:hidden flex items-center gap-2 text-xs text-brand-accent bg-brand-accent/5 border border-brand-accent/10 px-3 py-2 rounded-lg">
+                        <i class="fa-solid fa-arrows-left-right animate-pulse"></i>
+                        <span>مرر لليمين أو اليسار لعرض المخطط الشبكي بالكامل لمطابقة معايير الحماية</span>
+                    </div>
+
+                    <div class="relative w-full overflow-x-auto py-4">
+                        <svg viewBox="0 0 800 500" class="w-full min-w-[750px] h-auto bg-[#070c18] rounded-lg border border-brand-border/40">
+                            <!-- التدرجات اللونية لتصميم فخم -->
+                            <defs>
+                                <linearGradient id="cyber-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color: #1e293b;" />
+                                    <stop offset="100%" style="stop-color: #0b1329;" />
+                                </linearGradient>
+                            </defs>
+
+                            <!-- Zone 4: Enterprise Zone -->
+                            <rect x="20" y="20" width="760" height="70" rx="6" fill="url(#cyber-grad)" stroke="#475569" stroke-width="1.5" />
+                            <text x="760" y="45" fill="#94a3b8" font-family="Cairo" font-size="11" font-weight="700" text-anchor="end">المنطقة 4: شبكة أعمال الشركة (Enterprise IT Network)</text>
+                            <text x="40" y="45" fill="#0ea5e9" font-family="JetBrains Mono" font-size="10" font-weight="700">Zone 4 (IT)</text>
+
+                            <!-- Conduit 3-4: Enterprise Firewall -->
+                            <line x1="400" y1="90" x2="400" y2="130" stroke="#ef4444" stroke-width="3" stroke-dasharray="4,4" />
+                            <rect x="320" y="95" width="160" height="30" rx="4" fill="#1e293b" stroke="#ef4444" stroke-width="1.5" />
+                            <text x="400" y="114" fill="#ef4444" font-family="Cairo" font-size="10" font-weight="700" text-anchor="middle">قناة أمان 3-4 (IT/OT Firewall)</text>
+
+                            <!-- Zone 3: Industrial DMZ & AI Engine -->
+                            <rect x="20" y="140" width="760" height="100" rx="6" fill="rgba(14, 165, 233, 0.05)" stroke="#0ea5e9" stroke-width="1.5" />
+                            <text x="760" y="165" fill="#0ea5e9" font-family="Cairo" font-size="11" font-weight="700" text-anchor="end">المنطقة 3: منطقة العزل الحوسبي والذكاء الاصطناعي (Industrial DMZ)</text>
+                            <text x="40" y="165" fill="#0ea5e9" font-family="JetBrains Mono" font-size="10" font-weight="700">Zone 3 (AI Node, Kafka, InfluxDB)</text>
+                            <rect x="100" y="190" width="160" height="35" rx="4" fill="#0f172a" stroke="#0ea5e9" />
+                            <text x="180" y="212" fill="#f8fafc" font-family="Cairo" font-size="10" text-anchor="middle">خادم NVIDIA AI</text>
+                            <rect x="320" y="190" width="160" height="35" rx="4" fill="#0f172a" stroke="#0ea5e9" />
+                            <text x="400" y="212" fill="#f8fafc" font-family="Cairo" font-size="10" text-anchor="middle">وسيط Apache Kafka</text>
+                            <rect x="540" y="190" width="160" height="35" rx="4" fill="#0f172a" stroke="#0ea5e9" />
+                            <text x="620" y="212" fill="#f8fafc" font-family="Cairo" font-size="10" text-anchor="middle">مؤرخ السلاسل الزمنية</text>
+
+                            <!-- Conduit 2-3: DMZ Firewall -->
+                            <line x1="400" y1="240" x2="400" y2="280" stroke="#ef4444" stroke-width="3" stroke-dasharray="4,4" />
+                            <rect x="320" y="245" width="160" height="30" rx="4" fill="#1e293b" stroke="#ef4444" stroke-width="1.5" />
+                            <text x="400" y="264" fill="#ef4444" font-family="Cairo" font-size="10" font-weight="700" text-anchor="middle">قناة أمان 2-3 (OPC UA Gateway)</text>
+
+                            <!-- Zone 2: Supervisory Control (DCS OWS) -->
+                            <rect x="20" y="290" width="760" height="90" rx="6" fill="rgba(16, 185, 129, 0.05)" stroke="#10b981" stroke-width="1.5" />
+                            <text x="760" y="315" fill="#10b981" font-family="Cairo" font-size="11" font-weight="700" text-anchor="end">المنطقة 2: التحكم الإشرافي وغرفة التحكم (Supervisory Control Zone)</text>
+                            <text x="40" y="315" fill="#10b981" font-family="JetBrains Mono" font-size="10" font-weight="700">Zone 2 (OWS Stations & OTS)</text>
+                            <rect x="150" y="335" width="150" height="30" rx="4" fill="#0f172a" stroke="#10b981" />
+                            <text x="225" y="354" fill="#f8fafc" font-family="Cairo" font-size="10" text-anchor="middle">5x OWS محطات المشغلين</text>
+                            <rect x="350" y="335" width="130" height="30" rx="4" fill="#0f172a" stroke="#10b981" />
+                            <text x="415" y="354" fill="#f8fafc" font-family="Cairo" font-size="10" text-anchor="middle">شاشات العرض الموحدة</text>
+                            <rect x="520" y="335" width="130" height="30" rx="4" fill="#0f172a" stroke="#10b981" />
+                            <text x="585" y="354" fill="#f8fafc" font-family="Cairo" font-size="10" text-anchor="middle">محاكي OTS الموازي</text>
+
+                            <!-- Conduit 1-2: Control Network -->
+                            <line x1="400" y1="380" x2="400" y2="410" stroke="#10b981" stroke-width="2" />
+
+                            <!-- Zone 1 & 0: Basic Control (DCS Controllers & Safety) -->
+                            <rect x="20" y="410" width="760" height="75" rx="6" fill="#1e293b" stroke="#64748b" stroke-width="1" />
+                            <text x="760" y="435" fill="#94a3b8" font-family="Cairo" font-size="11" font-weight="700" text-anchor="end">المنطقة 1 & 0: التحكم الأساسي والسلامة الفيزيائية (Control & SIS)</text>
+                            <text x="40" y="435" fill="#94a3b8" font-family="JetBrains Mono" font-size="10" font-weight="700">Zone 1 & 0 (DCS FCS & HIMA SIS)</text>
+                            <rect x="200" y="445" width="180" height="28" rx="3" fill="#0f172a" stroke="#64748b" />
+                            <text x="290" y="462" fill="#f8fafc" font-family="Cairo" font-size="9" text-anchor="middle">وحدات التحكم الميدانية FCS</text>
+                            <rect x="440" y="445" width="180" height="28" rx="3" fill="rgba(239, 68, 68, 0.1)" stroke="#ef4444" />
+                            <text x="530" y="462" fill="#ef4444" font-family="Cairo" font-size="9" font-weight="700" text-anchor="middle">نظام السلامة المعزول HIMA SIS</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="table-container mt-6 overflow-x-auto">
+                    <table class="w-full text-right border border-brand-border rounded-xl">
+                        <thead>
+                            <tr class="bg-brand-card text-brand-primary border-b border-brand-border">
+                                <th class="p-4 text-sm font-bold">المنطقة الأمنية (Security Zone)</th>
+                                <th class="p-4 text-sm font-bold">الأصول المتواجدة والمحمية</th>
+                                <th class="p-4 text-sm font-bold">سياسات حماية قنوات الاتصال (Conduits Policy)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-brand-border">
+                            <tr>
+                                <td class="p-4 text-sm font-bold text-brand-danger">المنطقة 1 & 0 (Basic Control)</td>
+                                <td class="p-4 text-sm text-brand-textMuted">معالجات Yokogawa FCS، كروت الإدخال والإخراج الميدانية، ونظام السلامة المستقل <span class="tech-tag text-xs">HIMA SIS</span>.</td>
+                                <td class="p-4 text-sm text-brand-textMuted">عزل فيزيائي كامل لشبكة السلامة (<span class="tech-tag text-xs">SIL-3</span>). لا يسمح بأي تواصل برمجيات خارجي مع المعالجات إلا من خلال بروتوكول شبكة Vnet المزدوج والمشفر.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 text-sm font-bold text-brand-accent">المنطقة 2 (Supervisory Zone)</td>
+                                <td class="p-4 text-sm text-brand-textMuted">محطات عمل المشغلين الخمس (<span class="tech-tag text-xs">5x OWS</span>) ونظام المحاكاة للتدريب (OTS).</td>
+                                <td class="p-4 text-sm text-brand-textMuted">تفعيل سياسات منع التسلل وحماية المنافذ المادية للحواسب (USB Disable). تقتصر الاتصالات بالكامل على إرسال واستقبال الإشارات من المنطقة 1 ومعالجة الواجهات.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 text-sm font-bold text-brand-primary">المنطقة 3 (Industrial DMZ)</td>
+                                <td class="p-4 text-sm text-brand-textMuted">سيرفر الذكاء الاصطناعي (NVIDIA Edge)، وسيط البيانات (Kafka)، ومؤرخ السلاسل الزمنية (InfluxDB).</td>
+                                <td class="p-4 text-sm text-brand-textMuted">بوابة الفصل والربط الآمن. يمنع نهائياً ربط المنطقة 2 بالمنطقة 4 مباشرة. تمر البيانات باتجاه واحد فقط من المنطقة 2 للمنطقة 3 عبر بوابات <span class="tech-tag text-xs">OPC UA Client-Server</span> مؤمنة ومحكمة بجدار ناري مزدوج.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- الفصل السادس: مكدس وهندسة البيانات الصناعية -->
+        <section id="datapipe" class="scroll-margin-top-12 space-y-6">
+            <h2 class="text-2xl font-bold flex items-center gap-3 text-brand-textMain">
+                <span class="font-mono text-brand-primary">06 |</span> مكدس وهندسة البيانات اللحظية الضخمة (Industrial Data Pipeline)
+            </h2>
+            <div class="prose prose-invert max-w-none text-brand-textMuted leading-relaxed space-y-4 text-justify">
+                <p>
+                    إن معالجة آلاف القراءات المتزامنة للضغوط والحرارة والتدفقات وتمريرها لخوارزميات الذكاء الاصطناعي دون تعطيل معالجات الـ DCS يتطلب خط أنابيب بيانات لحظي صلب ومستقل بالكامل:
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                    <div class="bg-[#111827] border border-brand-border p-6 rounded-xl space-y-3">
+                        <span class="text-3xl text-brand-accent"><i class="fa-solid fa-wind"></i></span>
+                        <h4 class="text-brand-textMain font-bold text-base">ناقل البيانات اللحظي (Kafka)</h4>
+                        <p class="text-brand-textMuted text-xs leading-relaxed">
+                            يقوم بسحب القراءات اللحظية من بوابات OPC UA وتدويرها في جزء من الثانية وتوزيعها ديناميكياً على خادم الـ AI كرسائل متسلسلة دون إرهاق ذاكرة المعالجات الأساسية.
+                        </p>
+                    </div>
+                    <div class="bg-[#111827] border border-brand-border p-6 rounded-xl space-y-3">
+                        <span class="text-3xl text-brand-primary"><i class="fa-solid fa-clock"></i></span>
+                        <h4 class="text-brand-textMain font-bold text-base">قاعدة السلاسل الزمنية (InfluxDB)</h4>
+                        <p class="text-brand-textMuted text-xs leading-relaxed">
+                            محرك كتابة فائق السرعة مخصص لاستيعاب ملايين القراءات التاريخية واللحظية وأرشفتها لتسهيل تتبع سلوك المحطة عبر المواسم والسنوات وتوفير الوقود والمواد الكيميائية.
+                        </p>
+                    </div>
+                    <div class="bg-[#111827] border border-brand-border p-6 rounded-xl space-y-3">
+                        <span class="text-3xl text-brand-secondary"><i class="fa-solid fa-cubes"></i></span>
+                        <h4 class="text-brand-textMain font-bold text-base">جدولة وفلترة البيانات (Airflow)</h4>
+                        <p class="text-brand-textMuted text-xs leading-relaxed">
+                            تتولى إدارة ومعالجة القراءات المارّة وتصفيتها تلقائياً من أي تشويش مغناطيسي أو فقدان للإشارات في كابلات الحقل لضمان عدم توليد إنذارات تنبؤية كاذبة.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- الفصل السابع: النمذجة الرياضية والذكاء للأصول -->
+        <section id="modeling" class="scroll-margin-top-12 space-y-6">
+            <h2 class="text-2xl font-bold flex items-center gap-3 text-brand-textMain">
+                <span class="font-mono text-brand-primary">07 |</span> النمذجة الرياضية والفيزياء الحاكمة لخوارزميات الذكاء الاصطناعي
+            </h2>
+            <div class="prose prose-invert max-w-none text-brand-textMuted leading-relaxed space-y-4 text-justify">
+                <p>
+                    لا نعتمد في حلولنا الفنية على نماذج إحصائية عشوائية للذكاء الاصطناعي؛ بل ندمج معادلات الهندسة الكيميائية والفيزياء الحاكمة لعمليات التحلية وحرارة الاحتراق مباشرة داخل دالة فقد الشبكة العصبية لمنع توليد فرضيات خاطئة وحماية أصول محطة الزاوية الحيوية:
+                </p>
+
+                <!-- مبخرات MED (PINNs) -->
+                <div class="bg-brand-card border border-brand-border p-6 rounded-xl space-y-4">
+                    <h3 class="text-brand-primary font-bold text-lg flex items-center gap-2">
+                        <i class="fa-solid fa-water"></i> 1. مبخرات مياه البحر (MED Units) - خوارزميات الـ PINNs
+                    </h3>
+                    <p class="text-brand-textMuted text-sm leading-relaxed">
+                        يتم دمج قوانين الديناميكا الحرارية وحفظ المادة والطاقة (Mass and Energy Conservation) داخل دالة الفقد للشبكة العصبية للتنبؤ بمعدل الترسب الملحكي (Fouling) داخل أنابيب التبخير بدقة متناهية وجدولة CIP:
+                    </p>
+                    <div class="math-box p-4 rounded-lg font-mono text-brand-secondary text-sm overflow-x-auto text-left" dir="ltr">
+                        Loss = MSE_data + MSE_physics<br>
+                        MSE_physics = || ∂ρ/∂t + ∇·(ρu) ||^2  + || ∂T/∂t + u·∇T - α∇²T ||^2
+                    </div>
+                    <p class="text-xs text-brand-textMuted mt-2">
+                        * دالة الفقد للشبكة العصبية: تجمع بين مطابقة بيانات الحقل الحقيقية وقوانين الفيزياء لمنع الانحراف المعرفي للنموذج.
+                    </p>
+                </div>
+
+                <!-- غلايات الاحتراق (Deep RL) -->
+                <div class="bg-brand-card border border-brand-border p-6 rounded-xl space-y-4 mt-6">
+                    <h3 class="text-brand-primary font-bold text-lg flex items-center gap-2">
+                        <i class="fa-solid fa-fire"></i> 2. غلايات الاحتراق الأربع - التعلم المعزز العميق (Deep RL)
+                    </h3>
+                    <p class="text-brand-textMuted text-sm leading-relaxed">
+                        تطبيق نموذج وكيل التعلم المعزز لحساب وتعديل نقاط التشغيل المثلى لنسب الوقود والأكسجين للحفاظ على جودة الاحتراق مع خفض انبعاثات الكربون وهدر الوقود الحراري:
+                    </p>
+                    <div class="math-box p-4 rounded-lg font-mono text-brand-secondary text-sm overflow-x-auto text-left" dir="ltr">
+                        Reward = r_t = - ( Fuel_consumption )_t - w_1 * || O2_deviation ||^2 - w_2 * || Steam_pressure_deviation ||^2
+                    </div>
+                    <p class="text-xs text-brand-textMuted mt-2">
+                        * دالة المكافأة للـ Agent: تضمن حث الوكيل على خفض استهلاك الوقود لأقصى حد مع الحفاظ التام على ثبات ضغط البخار المحمص.
+                    </p>
+                </div>
+
+                <!-- الصيانة التنبؤية (CNN-LSTM) -->
+                <div class="bg-brand-card border border-brand-border p-6 rounded-xl space-y-4 mt-6">
+                    <h3 class="text-brand-primary font-bold text-lg flex items-center gap-2">
+                        <i class="fa-solid fa-gears"></i> 3. المعدات الدوارة والمضخات - الهجينة الزمنية CNN-LSTM
+                    </h3>
+                    <p class="text-brand-textMuted text-sm leading-relaxed">
+                        تحويل قراءات طيف الاهتزازات المادية إلى موجات ترددية وتمريرها لنظام هجين يجمع بين الشبكات الالتفافية (CNN) لاستخلاص ملامح الأعطال والشبكات الزمنية (LSTM) لتتبع نمط تأكل المحامل وتآكلها:
+                    </p>
+                    <div class="math-box p-4 rounded-lg font-mono text-brand-secondary text-sm overflow-x-auto text-left" dir="ltr">
+                        Features_t = CNN( Vibration_signal_t )<br>
+                        Fault_Probability = Softmax( LSTM( Features_t, Hidden_state_t-1 ) )
+                    </div>
+                    <p class="text-xs text-brand-textMuted mt-2">
+                        * المعادلات الهجينة لنموذج الصيانة التنبؤية: استخلاص الأنماط المترابطة ميكانيكياً ثم تتبع نمط تآكلها الزمني للتنبؤ بالـ (Time-to-Failure).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- الفصل الثامن: حوكمة النماذج والشفافية XAI -->
+        <section id="governance" class="scroll-margin-top-12 space-y-6">
+            <h2 class="text-2xl font-bold flex items-center gap-3 text-brand-textMain">
+                <span class="font-mono text-brand-primary">08 |</span> حوكمة النماذج والذكاء المفسّر لكسر "الصندوق الأسود" (XAI & MLOps)
+            </h2>
+            <div class="prose prose-invert max-w-none text-brand-textMuted leading-relaxed space-y-4 text-justify">
+                <p>
+                    لضمان استجابة وتفاعل الكوادر البشرية الوطنية بمحطة الزاوية مع تنبؤات النظام، قمنا بحل مشكلتين أساسيتين تفتقر إليهما البرمجيات والأبحاث الأكاديمية:
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+                    <div class="bg-brand-card border border-brand-border p-6 rounded-xl space-y-3">
+                        <h4 class="text-brand-secondary font-bold text-base flex items-center gap-2">
+                            <i class="fa-solid fa-eye"></i> شفافية اتخاذ القرار الميكانيكي (SHAP)
+                        </h4>
+                        <p class="text-brand-textMuted text-xs leading-relaxed">
+                            عندما يصدر النظام إنذاراً تنبؤياً باحتمالية حدوث عطل في مضخة سحب المياه الرئيسية بعد 10 أيام، يفتح النظام نافذة تفسيرية للمشغل توضح الأسباب الهندسية الملموسة لتوليد التنبيه: (تم إطلاق الإنذار بسبب انحراف معدل اهتزاز كراسي التحميل بنسبة 14% بالتزامن مع ارتفاع تيار سحب المحرك بمقدار 5 أمبير). هذا يبني ثقة تشغيلية عالية لتجهيز قطع الغيار وبدء أعمال الصيانة.
+                        </p>
+                    </div>
+                    <div class="bg-brand-card border border-brand-border p-6 rounded-xl space-y-3">
+                        <h4 class="text-brand-accent font-bold text-base flex items-center gap-2">
+                            <i class="fa-solid fa-rotate"></i> تتبع ومنع تدهور الخوارزميات (MLflow)
+                        </h4>
+                        <p class="text-brand-textMuted text-xs leading-relaxed">
+                            تتدهور دقة خوارزميات الذكاء الاصطناعي مع تقدم عمر الأصول أو تغير ملوحة مياه البحر وحرارة الطقس (Model Drift). ندمج منصة <span class="tech-tag font-mono text-xs">MLflow</span> لمراقبة دقة التنبؤات والإنذارات بشكل مستمر، وتنبيه المهندسين فوراً لإعادة تدريب وتحديث الخوارزميات محلياً على البيانات المحدثة دون الحاجة لدعم من الموردين الأجانب.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- الفصل التاسع: أكاديمية التدريب ونظام الـ OTS -->
+        <section id="training" class="scroll-margin-top-12 space-y-6">
+            <h2 class="text-2xl font-bold flex items-center gap-3 text-brand-textMain">
+                <span class="font-mono text-brand-primary">09 |</span> أكاديمية نقل المعرفة وتوطين التكنولوجيا (GDCOL Training OTS)
+            </h2>
+            <div class="prose prose-invert max-w-none text-brand-textMuted leading-relaxed space-y-4 text-justify">
+                <p>
+                    إن هدفنا الاستراتيجي هو تمكين وتحقيق الاستقلالية التشغيلية الكاملة للكوادر الوطنية بمحطة تحلية الزاوية في تشغيل وصيانة هذه الأنظمة المتطورة لضمان استمرارية الأصول المحدثة. يتضمن المقترح برنامجاً تدريبياً تطبيقياً مقسماً إلى ثلاثة مسارات:
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                    <div class="bg-brand-card border border-brand-border p-6 rounded-xl space-y-3 text-center flex flex-col items-center">
+                        <span class="text-3xl text-brand-primary"><i class="fa-solid fa-graduation-cap"></i></span>
+                        <h4 class="text-brand-textMain font-bold text-base">1. مشغلو غرف التحكم (OTS)</h4>
+                        <p class="text-brand-textMuted text-xs leading-relaxed">
+                            بناء بيئة محاكاة رقمية كاملة (<span class="tech-tag text-xs">DCS OTS</span>) مطابقة تماماً للموقع؛ تتيح للمشغلين التدرب على الشاشات الحديثة والواجهات الرسومية، وتلقي تنبيهات الذكاء الاصطناعي، وممارسة سيناريوهات الطوارئ وحرائق الحقل بصفر خطورة على محطة التحلية الحقيقية.
+                        </p>
+                    </div>
+                    <div class="bg-brand-card border border-brand-border p-6 rounded-xl space-y-3 text-center flex flex-col items-center">
+                        <span class="text-3xl text-brand-secondary"><i class="fa-solid fa-gears"></i></span>
+                        <h4 class="text-brand-textMain font-bold text-base">2. مهندسو الصيانة والأجهزة دقيقة</h4>
+                        <p class="text-brand-textMuted text-xs leading-relaxed">
+                            تدريب تطبيقي ومكثف لمهندسي الأجهزة الدقيقة وIT وتكنولوجيا المعلومات حول حوكمة وصيانة الخوادم والـ Storage، حل مشاكل شبكات OPC UA و MQTT لضمان تحقيق الاستقلالية التشغيلية والصيانة الفورية دون الاعتماد على الشركات الخارجية.
+                        </p>
+                    </div>
+                    <div class="bg-brand-card border border-brand-border p-6 rounded-xl space-y-3 text-center flex flex-col items-center">
+                        <span class="text-3xl text-brand-accent"><i class="fa-solid fa-chart-line"></i></span>
+                        <h4 class="text-brand-textMain font-bold text-base">3. الإدارة الفنية والتحليل الذكي</h4>
+                        <p class="text-brand-textMuted text-xs leading-relaxed">
+                            ورش عمل متقدمة لمهندسي التشغيل والصيانة العليا لفهم مخرجات التفسير الهندسي لـ SHAP، ومراقبة دقة الخوارزميات وتحديثها محلياً عبر منصة MLflow لمواكبة تدهور النماذج وتوطين المعرفة البرمجية داخل شركة GDCOL.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- الفصل العاشر: خطة الترحيل الساخن والمخاطر -->
+        <section id="rollout" class="scroll-margin-top-12 space-y-6">
+            <h2 class="text-2xl font-bold flex items-center gap-3 text-brand-textMain">
+                <span class="font-mono text-brand-primary">10 |</span> خطة الترحيل الساخن الخالية من المخاطر (Zero-Downtime Hot-Swapping)
+            </h2>
+            <div class="prose prose-invert max-w-none text-brand-textMuted leading-relaxed space-y-4 text-justify">
+                <p>
+                    أكبر معوقات ترقية المنظومة في منشآت المياه هي تجنب إيقاف إنتاج مياه الشرب للمواطنين. يعتمد مقترحنا الهندسي على بروتوكول تحويل ساخن (**Hot-Swapping**) موازٍ ومحمي ضد الأعطال:
+                </p>
+
+                <div class="bg-brand-card border border-brand-border p-6 rounded-xl space-y-4">
+                    <h4 class="text-brand-primary font-bold text-base">الخطوات التفصيلية للترحيل على الساخن لـ 5 محطات عمل (OWS)</h4>
+                    <ol class="list-decimal pr-6 space-y-3 text-sm">
+                        <li>بناء واختبار قاعدة البيانات المحدثة بالكامل مع شاشات CENTUM VP داخل السيرفر الجديد بشكل موازٍ في بيئة محاكاة.</li>
+                        <li>استبقاء 4 محطات OWS قديمة قيد العمل والتحكم الحقيقي في غرف غلايات ومبخرات المحطة.</li>
+                        <li>عزل محطة OWS واحدة ميكانيكياً وفصل كابلات النواقل القديمة عنها، وربط حاسوب OWS الحديث وتوصيله بكابلات شبكة Vnet/IP السريعة وفحص استقبال الإشارات.</li>
+                        <li>بعد مطابقة واستقرار المحطة المحدثة الأولى وتشغيلها 100%، يتم تكرار نفس الخطوات بالتتابع للمحطات الأربع المتبقية واحدة تلو الأخرى.</li>
+                        <li>بذلك نضمن ترحيلاً وتحديثاً كاملاً لكافة واجهات التحكم بغرفة المحطة وصفر إيقاف أو توقف لإنتاج المياه.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- الفصل الحادي عشر: مصفوفة التقييم والمقارنة الفنية -->
+        <section id="matrix" class="scroll-margin-top-12 space-y-6">
+            <h2 class="text-2xl font-bold flex items-center gap-3 text-brand-textMain">
+                <span class="font-mono text-brand-primary">11 |</span> مصفوفة التفوق الاستراتيجي والتقييم التنافسي (The Winning Edge)
+            </h2>
+            <div class="prose prose-invert max-w-none text-brand-textMuted leading-relaxed space-y-4 text-justify">
+                <p>
+                    لتسهيل اتخاذ القرار من قِبل اللجنة الفنية بشركة GDCOL وتوضيح نقاط القوة والفروقات الجوهرية لمقترحنا بالمقارنة مع الحلول البديلة في السوق:
+                </p>
+
+                <div class="table-container mt-6 overflow-x-auto">
+                    <table class="w-full text-right border border-brand-border rounded-xl">
+                        <thead>
+                            <tr class="bg-brand-card text-brand-primary border-b border-brand-border">
+                                <th class="p-4 text-sm font-bold">معايير التقييم الفني والمالي</th>
+                                <th class="p-4 text-sm font-bold">مقترح تغيير المنظومة كلياً (سيمنس مثلاً) ❌</th>
+                                <th class="p-4 text-sm font-bold">مقترح الـ AI الأكاديمي التقليدي ❌</th>
+                                <th class="p-4 text-sm font-bold">مقترحنا (التحول الرقمي المستدام) 🎯</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-brand-border">
+                            <tr>
+                                <td class="p-4 text-sm font-bold text-brand-textMain">الأثر على إنتاج مياه الشرب للمحطة</td>
+                                <td class="p-4 text-sm text-brand-danger font-semibold"><i class="fa-solid fa-circle-xmark"></i> خطر حرج وتوقف إجباري لإنتاج المياه من 5 إلى 10 أيام.</td>
+                                <td class="p-4 text-sm text-brand-accent font-semibold"><i class="fa-solid fa-circle-exclamation"></i> مخاطر غير محسوبة لربط الأكواد الحية بالمعالجات.</td>
+                                <td class="p-4 text-sm text-brand-secondary font-bold"><i class="fa-solid fa-circle-check"></i> آمن ومضمون وصفر توقف للمحطة عبر النقل على الساخن.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 text-sm font-bold text-brand-textMain">استدامة الأصول ودورة الحياة (Lifecycle)</td>
+                                <td class="p-4 text-sm text-brand-textMuted">ترقية عادية تعود للتقادم خلال عقد من الزمن كالعادة.</td>
+                                <td class="p-4 text-sm text-brand-danger font-semibold"><i class="fa-solid fa-circle-xmark"></i> نظام مبعثر ومشتت يصعب صيانته محلياً.</td>
+                                <td class="p-4 text-sm text-brand-secondary font-bold"><i class="fa-solid fa-circle-check"></i> فصل تام للبرامج عن العتاد عبر الحاويات لضمان بقائها حية.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 text-sm font-bold text-brand-textMain">أمان وعزل الشبكات IEC 62443</td>
+                                <td class="p-4 text-sm text-brand-textMuted">لا يتضمن خطة تقسيم سيبراني واضحة ومستقلة.</td>
+                                <td class="p-4 text-sm text-brand-danger font-semibold"><i class="fa-solid fa-circle-xmark"></i> تجاهل معايير الأمن السيبراني وعزل الشبكات الحية.</td>
+                                <td class="p-4 text-sm text-brand-secondary font-bold"><i class="fa-solid fa-circle-check"></i> تقسيم شبكي أمني صارم (Zones & Conduits) مع عزل سيادي.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 text-sm font-bold text-brand-textMain">ثقة المشغل في مخرجات الـ AI</td>
+                                <td class="p-4 text-sm text-brand-danger font-semibold"><i class="fa-solid fa-circle-xmark"></i> لا يدعم أي خوارزميات ذكية متفاعلة مع الأصول المادية.</td>
+                                <td class="p-4 text-sm text-brand-danger font-semibold"><i class="fa-solid fa-circle-xmark"></i> خوارزميات "الصندوق الأسود" (قرارات مبهمة ومخيفة للمشغل).</td>
+                                <td class="p-4 text-sm text-brand-secondary font-bold"><i class="fa-solid fa-circle-check"></i> ذكاء مفسّر (XAI) يوضح كافة المبررات الهندسية بـ SHAP.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- الفصل الثاني عشر: المراجع والمعايير الدولية المعتمدة -->
+        <section id="standards" class="scroll-margin-top-12 space-y-6">
+            <h2 class="text-2xl font-bold flex items-center gap-3 text-brand-textMain">
+                <span class="font-mono text-brand-primary">12 |</span> المراجع الفنية والمعايير الهندسية الدولية المعتمدة
+            </h2>
+            <div class="prose prose-invert max-w-none text-brand-textMuted leading-relaxed space-y-4 text-justify">
+                <p>
+                    يلتزم هذا المقترح بالتطابق التام مع كبرى المعايير الهندسية الحاكمة لتطوير وتأمين النظم الصناعية لإنتاج المياه والطاقة:
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+                    <div class="bg-brand-card border border-brand-border p-4 rounded-lg space-y-2">
+                        <span class="text-brand-primary font-mono text-xs font-bold">IEC 62443</span>
+                        <h5 class="text-brand-textMain font-bold text-sm">الأمن السيبراني الصناعي</h5>
+                        <p class="text-brand-textMuted text-xs leading-relaxed">المعيار العالمي لعزل وتأمين شبكات التحكم والمراقبة.</p>
+                    </div>
+                    <div class="bg-brand-card border border-brand-border p-4 rounded-lg space-y-2">
+                        <span class="text-brand-primary font-mono text-xs font-bold">ISA-18.2</span>
+                        <h5 class="text-brand-textMain font-bold text-sm">إدارة وهندسة الإنذارات</h5>
+                        <p class="text-brand-textMuted text-xs leading-relaxed">كتم وفلترة الإنذارات المشتتة وتسهيل كشف السبب الجذري.</p>
+                    </div>
+                    <div class="bg-brand-card border border-brand-border p-4 rounded-lg space-y-2">
+                        <span class="text-brand-primary font-mono text-xs font-bold">IEC 61508/61511</span>
+                        <h5 class="text-brand-textMain font-bold text-sm">السلامة الوظيفية (SIS)</h5>
+                        <p class="text-brand-textMuted text-xs leading-relaxed">عزل وضمان استقلال أنظمة السلامة HIMA SIL-3.</p>
+                    </div>
+                    <div class="bg-brand-card border border-brand-border p-4 rounded-lg space-y-2">
+                        <span class="text-brand-primary font-mono text-xs font-bold">IEEE 802.3 / 802.11</span>
+                        <h5 class="text-brand-textMain font-bold text-sm">بروتوكولات الاتصال والشبكات</h5>
+                        <p class="text-brand-textMuted text-xs leading-relaxed">معايير الاتصالات السريعة والمزدوجة لمحطات التحكم.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- كود بسيط لتتبع التنقل وتغيير كلاس النشاط للروابط الجانبية -->
+    <script>
+        const sections = document.querySelectorAll("section");
+        const navLi = document.querySelectorAll("aside nav a");
+        window.onscroll = () => {
+            var current = "";
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute("id");
+                }
+            });
+
+            navLi.forEach((a) => {
+                a.classList.remove("bg-brand-border", "text-brand-textMain");
+                a.classList.add("text-brand-textMuted");
+                if (a.getAttribute("href").substring(1) === current) {
+                    a.classList.add("bg-brand-border", "text-brand-textMain");
+                    a.classList.remove("text-brand-textMuted");
+                }
+            });
+        };
+
+        // Mobile Sidebar Controls
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const sidebarCloseBtn = document.getElementById('sidebar-close-btn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const navLinks = document.querySelectorAll('aside nav a');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('translate-x-full');
+            sidebarOverlay.classList.toggle('hidden');
+            sidebarOverlay.classList.toggle('opacity-0');
+            document.body.classList.toggle('overflow-hidden');
+        }
+
+        mobileMenuBtn?.addEventListener('click', toggleSidebar);
+        sidebarCloseBtn?.addEventListener('click', toggleSidebar);
+        sidebarOverlay?.addEventListener('click', toggleSidebar);
+
+        // Auto-close menu when selecting items on mobile screen width
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 768) {
+                    toggleSidebar();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
